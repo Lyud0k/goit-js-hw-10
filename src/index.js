@@ -10,9 +10,8 @@ const findDiv = document.querySelector('.country-info')
 findInput.addEventListener('input', lodash(searchCountry, DEBOUNCE_DELAY));
 
 function searchCountry(evt) {
-  evt.preventDefault();
   let text = evt.target.value;
-  fetchCountries(text).then(outputCountry);
+  // fetchCountries(text).then(outputCountry);
   console.log(text);
   }
 
