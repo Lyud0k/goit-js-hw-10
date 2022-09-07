@@ -11,12 +11,41 @@ findInput.addEventListener('input', lodash(searchCountry, DEBOUNCE_DELAY));
 
 function searchCountry(evt) {
   let text = evt.target.value;
-  fetchCountries(text).then(outputCountry);
-  console.log(text);
+   findDiv.innerHTML = '';
+  if (text.length === 0) {
+    return;
+}
+  fetchCountries(text.trim()).then(countries => countriesMarch(countries))
+    .catch(error => Notify.failure('Oops, there is no country with that name'));
+}
+
+function countriesMarch(countries) {
+  if (countries.length > 10) {
+    Notify.failure('Too many matches found. Please enter a more specific name.');
+    return;
   }
+  countriesOne(countries);
+}
+
+function countriesOne(countries) {
+  if (countries.length === 1) {
+    outputCountry(countries);
+  } else{
+             const markup = countries
+    .map((country) => {
+      return `<div class="country-info">
+      <img src ="${country.flags.svg}" width="40px"/>
+          <p><b>Name</b>: ${country.name.official}</p>
+        </div>`;
+    })
+       .join("");
+  findDiv.innerHTML = markup;
+    return;
+    }
+}
 
 function outputCountry(countries) {
-  console.log(countries);
+  // console.log(countries);
      const markup = countries
     .map((country) => {
       return `<div class="country-info">
